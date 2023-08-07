@@ -6,6 +6,8 @@ import { Expand, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Product } from "@/types";
+import IconButton from "./IconButton";
+import Currency from "./Currency";
 
 interface ProductCard {
   data: Product;
@@ -33,14 +35,14 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
         />
         <div className='opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5'>
           <div className='flex gap-x-6 justify-center'>
-            {/* <IconButton
-              onClick={onPreview}
+            <IconButton
+              onClick={() => {}}
               icon={<Expand size={20} className='text-gray-600' />}
             />
             <IconButton
-              onClick={onAddToCart}
+              onClick={() => {}}
               icon={<ShoppingCart size={20} className='text-gray-600' />}
-            /> */}
+            />
           </div>
         </div>
       </div>
@@ -51,7 +53,7 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
       </div>
       {/* Price & Reiew */}
       <div className='flex items-center justify-between'>
-        {/* <Currency value={data?.price} /> */}
+        <Currency value={data?.price} />
       </div>
     </div>
   );
