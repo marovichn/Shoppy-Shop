@@ -5,13 +5,13 @@ import { FC, Fragment } from "react";
 import IconButton from "./IconButton";
 import { X } from "lucide-react";
 
-interface modalProps {
+interface ModalProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
 }
 
-const modal: FC<modalProps> = ({ open, onClose, children }) => {
+const Modal: FC<ModalProps> = ({ open, onClose, children }) => {
   return (
     <Transition show={open} appear as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={onClose}>
@@ -44,4 +44,4 @@ const modal: FC<modalProps> = ({ open, onClose, children }) => {
   );
 };
 
-export default modal;
+export default Modal;
