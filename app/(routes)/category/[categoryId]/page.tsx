@@ -6,6 +6,8 @@ import Billboard from "@/components/Billboard";
 import Container from "@/components/ui/container";
 import { FC } from "react";
 import Filter from "./components/Filter";
+import NoResults from "@/components/ui/no-results";
+import ProductCard from "@/components/ui/product-card";
 
 interface CategoryPageProps {
   params: { categoryId: string };
@@ -38,6 +40,15 @@ const CategoryPage: FC<CategoryPageProps> = async ({
             {/*Add mobile filters*/}
             <div className='hidden lg:block'>
               <Filter name='Sizes' data={sizes} valueKey='sizeId' />
+              <Filter name='Colors' data={colors} valueKey='colorId' />
+            </div>
+            <div className='mt-6 lg:col-span-4 lg:mt-0'>
+              {products.length === 0 && <NoResults />}
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
+                {products.map((product) => (
+                  <ProductCard key={product.id} data={product} />
+                ))}
+              </div>
             </div>
           </div>
         </div>

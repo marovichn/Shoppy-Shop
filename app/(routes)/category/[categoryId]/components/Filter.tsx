@@ -57,7 +57,19 @@ const Filter: FC<FilterProps> = ({ name, valueKey, data }) => {
               )}
               onClick={() => onClick(filter.id)}
             >
-              {filter.name} / <span className="ml-2 font-extrabold">{filter.value}</span>
+              {filter.name} /{" "}
+              <div
+                className='ml-2 font-extrabold'
+                style={{
+                  backgroundColor: name == "Colors" ? filter.value : "",
+                  borderRadius: name == "Colors" ? "50%" : "",
+                  width: name == "Colors" ? "15px" : "",
+                  height: name == "Colors" ? "16px" : "",
+                  border: name == "Colors" ? "1px solid black" : "",
+                }}
+              >
+                {name !== "Colors" ? filter.value : ""}
+              </div>
             </Button>
           </div>
         ))}
