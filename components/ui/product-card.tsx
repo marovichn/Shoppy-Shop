@@ -5,35 +5,36 @@ import { MouseEventHandler } from "react";
 import { Expand, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import useCart from "@/hooks/use-cart";
 import { Product } from "@/types";
+import usePreviewModal from "@/hooks/use-prview-modal";
 import IconButton from "./IconButton";
 import Currency from "./Currency";
-import usePreviewModal from "@/hooks/use-prview-modal";
-import useCart from "@/hooks/use-cart";
 
 interface ProductCard {
   data: Product;
 }
 
 const ProductCard: React.FC<ProductCard> = ({ data }) => {
-  const router = useRouter();
-  const cart = useCart();
   const previewModal = usePreviewModal();
+  const cart = useCart();
+  const router = useRouter();
 
   const handleClick = () => {
     router.push(`/product/${data?.id}`);
   };
 
-  const onPreview: MouseEventHandler<HTMLButtonElement> =(event)=>{
+  const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
 
-    previewModal.onOpen(data)
-  }
-  const onAddToCart: MouseEventHandler<HTMLButtonElement> =(event)=>{
+    previewModal.onOpen(data);
+  };
+
+  const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
 
-    cart.addItem(data)
-  }
+    cart.addItem(data);
+  };
 
   return (
     <div
