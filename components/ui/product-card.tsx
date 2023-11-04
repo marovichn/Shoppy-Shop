@@ -20,6 +20,7 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
   const previewModal = usePreviewModal();
   const cart = useCart();
   const router = useRouter();
+  const stockAmount = data?.stockAmount ? Number(data?.stockAmount) : 1;
 
   const handleClick = () => {
     router.push(`/product/${data?.id}`);
@@ -34,8 +35,15 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
   const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
 
-    cart.addItem(data);
-    toast.success(`Added 1 ${data.name}`);
+    if (
+      cart.items.filter((item: Product) => item.id === data.id).length ===
+      stockAmount
+    ) {
+      return toast("Whole stock of this product is in cart.");
+    } else {
+      cart.addItem(data);
+      toast.success(`Added 1 ${data.name}`);
+    }
   };
 
   return (
