@@ -17,18 +17,37 @@ const useCart = create(
       items: [],
       addItem: (data: Product) => {
         const currentItems = get().items;
-        const existingItem = currentItems.find((item) => item.id === data.id);
+        const existingSameItems = currentItems.filter(
+          (item) => item.id === data.id
+        );
 
-        if (existingItem) {
-          return toast("Item already in cart.");
+        if (existingSameItems && existingSameItems[0]?.stockAmount) {
+          if (
+            Number(existingSameItems[0].stockAmount) > existingSameItems.length
+          ) {
+            set({ items: [...get().items, data] });
+          } else {
+            return toast("Whole stock of this product is in cart.");
+          }
+        } else {
+          set({ items: [...get().items, data] });
         }
-
-        set({ items: [...get().items, data] });
-        toast.success("Item added to cart.");
       },
       removeItem: (id: string) => {
-        set({ items: [...get().items.filter((item) => item.id !== id)] });
-        toast.success("Item removed from cart.");
+        const allItems = get().items;
+        const itemsToDeleteFiltered = allItems.filter((item) => item.id === id);
+        const newCartItems = allItems.filter((item) => item.id !== id);
+        if (itemsToDeleteFiltered.length === 1) {
+          set({ items: [...newCartItems] });
+          toast.success("Item removed from cart.");
+        } else {
+          const itemsOfSameTypeMinusOne = itemsToDeleteFiltered.slice(
+            0,
+            itemsToDeleteFiltered.length - 1
+          );
+          set({ items: [...newCartItems, ...itemsOfSameTypeMinusOne] });
+          toast.success("Item removed from cart.");
+        }
       },
       removeAll: () => set({ items: [] }),
     }),

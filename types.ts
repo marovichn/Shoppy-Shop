@@ -19,6 +19,7 @@ export interface Product{
   size: Size;
   color: Color;
   images: Image[];
+  stockAmount?: string
 }
 
 export interface Image{

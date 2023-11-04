@@ -10,6 +10,7 @@ import { Product } from "@/types";
 import usePreviewModal from "@/hooks/use-prview-modal";
 import IconButton from "./IconButton";
 import Currency from "./Currency";
+import toast from "react-hot-toast";
 
 interface ProductCard {
   data: Product;
@@ -34,6 +35,7 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
     event.stopPropagation();
 
     cart.addItem(data);
+    toast.success(`Added 1 ${data.name}`);
   };
 
   return (

@@ -33,7 +33,7 @@ const CategoryPage: FC<CategoryPageProps> = async ({
   const category = await getCategory(params.categoryId);
 
   return (
-    <div className='bg-white'>
+    <div className='bg-white mt-16'>
       <Container>
         <Billboard textColor='white' data={category.billboard} />
         <div className='px-4 sm:px-6 lg:px-8 pb-24'>
