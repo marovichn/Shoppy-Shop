@@ -95,6 +95,7 @@ const Info: React.FC<InfoProps> = ({ data }) => {
       </div>
       <div className='mt-10 flex items-center gap-x-3'>
         <Button
+          disabled={stockAmount === 0}
           onClick={onAddToCart}
           className='flex items-center gap-x-2 rounded-full max-sm:w-full'
         >
