@@ -101,9 +101,12 @@ const Info: React.FC<InfoProps> = ({ data }) => {
           onClick={onAddToCart}
           className='flex items-center gap-x-2 rounded-full max-sm:w-full'
         >
-          Add To Cart
+          {stockAmount === 0 ? (
+            <p className='text-red-500 '>No more in stock.</p>
+          ) : (
+            "Add To Cart"
+          )}
           <ShoppingCart size={20} />
-          {stockAmount === 0 && <p className="text-red-500 ">No more in stock.</p>}
         </Button>
       </div>
     </div>
