@@ -12,7 +12,7 @@ const Navbar = async () => {
   const isLongList = categories.length > 4;
 
   return (
-    <div className='border-b fixed top-0 z-10 bg-white w-screen min-w-screen'>
+    <div className='border-b fixed top-0 z-50 bg-white w-screen min-w-screen'>
       <Container>
         <div className='relative px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between'>
           <div className='max-sm:flex hidden items-center justify-center'>
