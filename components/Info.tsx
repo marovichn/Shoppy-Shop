@@ -78,6 +78,7 @@ const Info: React.FC<InfoProps> = ({ data }) => {
       </div>
       <div className='mt-10 flex items-center gap-x-3'>
         <Button
+          disabled={stockAmount === 0}
           variant='outline'
           onClick={onAmountMinus}
           className='flex items-center gap-x-2 rounded-md w-fll h-full'
@@ -86,6 +87,7 @@ const Info: React.FC<InfoProps> = ({ data }) => {
         </Button>
         <div className='text-xl font-bold mx-3'>{amountChosen}</div>
         <Button
+          disabled={stockAmount === 0}
           variant='outline'
           onClick={onAmountPlus}
           className='flex items-center gap-x-2 rounded-md w-fll h-full'
