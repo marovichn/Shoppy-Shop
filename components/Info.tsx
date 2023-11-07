@@ -103,6 +103,7 @@ const Info: React.FC<InfoProps> = ({ data }) => {
         >
           Add To Cart
           <ShoppingCart size={20} />
+          {stockAmount === 0 && <p className="text-red-500 ">No more in stock.</p>}
         </Button>
       </div>
     </div>
