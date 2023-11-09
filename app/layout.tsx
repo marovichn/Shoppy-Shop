@@ -5,6 +5,7 @@ import { Urbanist } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import ModalProvider from "@/providers/ModalProvider";
 import ToastProvider from "@/providers/ToastProvider";
+import AuthContext from "@/context/AuthContext";
 
 const urbanist = Urbanist({ subsets: ["latin"] });
 
@@ -20,13 +21,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={urbanist.className}>
-        <ModalProvider/>
-        <ToastProvider/>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
+      <AuthContext>
+        <body className={urbanist.className}>
+          <ModalProvider />
+          <ToastProvider />
+          <Navbar />
+          {children}
+          <Footer />
+        </body>
+      </AuthContext>
     </html>
   );
 }

@@ -38,3 +38,7 @@ export interface Size{
   name:string
   value: string
 }
+
+type Variant = "LOGIN" | "REGISTER";
+
+export default Variant;

@@ -9,7 +9,7 @@ export const revalidate = 0;
 
 const Navbar = async () => {
   const categories = await getCategories();
-  const isLongList = categories.length > 4;
+  const isLongList = categories.length > 2;
 
   return (
     <div className='border-b fixed top-0 z-50 bg-white w-screen min-w-screen'>

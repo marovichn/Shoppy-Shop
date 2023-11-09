@@ -74,10 +74,10 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
                           <Dialog.Title className='w-[95%] absolute top-1 left-1 font-semibold leading-6 dark:text-white text-2xl bg-black text-white rounded-xl p-3 mr-5'>
                             Shoppy
                             <p className='text-xs'>Menu</p>
-                            <div className='absolute right-1 top-1 ml-3 flex h-7 items-center'>
+                            <div className='absolute right-[6px] top-1 ml-3 flex h-7 items-center'>
                               <button
                                 type='button'
-                                className='rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-nonetransition dark:bg-transparent '
+                                className='rounded-md bg-white text-black hover:text-gray-500 focus:outline-nonetransition dark:bg-transparent '
                                 onClick={() => setOpen(false)}
                               >
                                 <span className='sr-only'>Close panel</span>
@@ -114,7 +114,7 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
                             ))}
                           </nav>
                           <div className='max-sm:flex max-sm:flex-col hidden items-start justify-center gap-y-2'>
-                            <h3 className='font-semibold'>Your cart</h3>
+                            <h3 className='font-semibold'>Actions</h3>
                             <NavbarActions />
                           </div>
                         </div>
