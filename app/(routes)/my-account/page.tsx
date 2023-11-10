@@ -6,11 +6,17 @@ import db from "@/lib/db";
 import UserLists from "./components/UserLists";
 import getProducts from "@/actions/get-products";
 import UserActions from "./components/UserLists";
+import { redirect } from "next/navigation";
 
 interface pageProps {}
 
 const page: FC<pageProps> = async ({}) => {
   const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/")
+  }
+
   if (!session?.user?.email) {
     return <>No Data</>;
   }
@@ -26,7 +32,7 @@ const page: FC<pageProps> = async ({}) => {
   return (
     <div className='w-full pt-20'>
       <AccountInfo userData={userData} />
-      <UserActions/>
+      <UserActions />
     </div>
   );
 };

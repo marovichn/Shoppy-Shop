@@ -46,7 +46,7 @@ const UserActions: FC<UserActionsProps> = ({}) => {
               <div className='p-3 bg-green-500/40 rounded-md'>
                 <ListChecks className='text-green-500' />
               </div>
-              My wishlist{" "}
+              My wishlist
             </div>
             <ArrowRightCircle className='mt-1' />
           </h3>

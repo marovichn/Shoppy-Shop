@@ -8,12 +8,21 @@ import { Button } from "./ui/button";
 import useCart from "@/hooks/use-cart";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import ProductActions from "@/app/(routes)/product/[productId]/components/ProductActions";
 
 interface InfoProps {
   data: Product;
+  sessionEmail?: string;
+  favorites?: any;
+  wishlist?: any;
 }
 
-const Info: React.FC<InfoProps> = ({ data }) => {
+const Info: React.FC<InfoProps> = ({
+  data,
+  sessionEmail,
+  favorites,
+  wishlist,
+}) => {
   const cart = useCart();
   const stockAmount = data?.stockAmount ? Number(data?.stockAmount) : 1;
   const [amountChosen, setAmountChosen] = useState(1);
@@ -54,8 +63,15 @@ const Info: React.FC<InfoProps> = ({ data }) => {
     <div>
       <h1 className='text-3xl font-bold text-gray-900'>{data.name}</h1>
       <div className='mt-3 flex items-end justify-between'>
-        <p className='text-2xl text-gray-900'>
+        <p className='text-2xl text-gray-900 flex gap-x-5 items-start justify-center'>
           <Currency value={data?.price} />
+          {sessionEmail && (
+            <ProductActions
+              favorites={favorites}
+              wishlist={wishlist}
+              data={data}
+            />
+          )}
         </p>
       </div>
       <hr className='my-4' />

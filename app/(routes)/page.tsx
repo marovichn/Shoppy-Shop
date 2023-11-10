@@ -10,7 +10,7 @@ import { getServerSession } from "next-auth";
 export const revalidate = 0;
 
 export default async function Home() {
-  const billboard = await getBillboard("ec08af7e-6c74-445a-9ca6-e27f3784ebfa");
+  const billboard = await getBillboard("8e4c388d-0c11-4dcd-8e03-212375efb024");
   const products = await getProducts({
     isFeatured:true,
   });

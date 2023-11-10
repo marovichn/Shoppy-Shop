@@ -37,7 +37,8 @@ const ProductCard: React.FC<ProductCard> = ({ data, favorites, wishlist }) => {
   const [isWish, setIsWish] = useState(false);
 
   useEffect(() => {
-    if (favorites &&
+    if (
+      favorites &&
       favorites.filter((favorite: any) => favorite.productId === data.id)
         .length > 0
     ) {
@@ -65,12 +66,14 @@ const ProductCard: React.FC<ProductCard> = ({ data, favorites, wishlist }) => {
   const onWish = async () => {
     await axios.post("/api/wish", data);
     setIsWish((p) => !p);
+    router.refresh();
   };
   const onLike: MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.stopPropagation();
 
     await axios.post("/api/like", data);
-    setIsLiked((p)=>!p);
+    setIsLiked((p) => !p);
+    router.refresh();
   };
 
   const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -88,47 +91,46 @@ const ProductCard: React.FC<ProductCard> = ({ data, favorites, wishlist }) => {
   };
 
   return (
-    <div
-      onClick={handleClick}
-      className='bg-white group cursor-pointer rounded-xl border p-3 space-y-4'
-    >
+    <div className='bg-white group cursor-pointer rounded-xl border p-3 space-y-4'>
       {/* Image & actions */}
-      <div className='aspect-square rounded-xl bg-gray-100 relative'>
-        <Image
-          src={data.images?.[0]?.url}
-          alt=''
-          fill
-          className='aspect-square object-cover rounded-md'
-        />
-        <div className='opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5'>
-          <div className='flex gap-x-6 justify-center'>
-            <IconButton
-              onClick={onPreview}
-              icon={<Expand size={20} className='text-gray-600' />}
-            />
-            <IconButton
-              onClick={onAddToCart}
-              icon={<ShoppingCart size={20} className='text-gray-600' />}
-            />
+      <div className='' onClick={handleClick}>
+        <div className='aspect-square rounded-xl bg-gray-100 relative'>
+          <Image
+            src={data.images?.[0]?.url}
+            alt=''
+            fill
+            className='aspect-square object-cover rounded-md'
+          />
+          <div className='opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5'>
+            <div className='flex gap-x-6 justify-center'>
+              <IconButton
+                onClick={onPreview}
+                icon={<Expand size={20} className='text-gray-600' />}
+              />
+              <IconButton
+                onClick={onAddToCart}
+                icon={<ShoppingCart size={20} className='text-gray-600' />}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      {/* Description */}
-      <div>
-        <p className='font-semibold text-lg'>{data.name}</p>
-        <p className='text-sm text-gray-500'>{data.category?.name}</p>
-      </div>
-      {/* Price & Reiew */}
-      <div className='flex items-center justify-between'>
-        <Currency value={data?.price} />
+        {/* Description */}
+        <div>
+          <p className='font-semibold text-lg'>{data.name}</p>
+          <p className='text-sm text-gray-500'>{data.category?.name}</p>
+        </div>
+        {/* Price & Reiew */}
+        <div className='flex items-center justify-between'>
+          <Currency value={data?.price} />
+        </div>
       </div>
       {/*Add to Favorites and Wishlist*/}
       {session.data?.user && (
-        <div className='transition relative w-full z-20 pb-10'>
-          <div className='flex gap-x-6 justify-start transition absolute'>
+        <div className='transition relative z-20 pb-[38px]  '>
+          <div className='flex gap-x-6 justify-center transition absolute bg-black/10 rounded-full'>
             {isLiked ? (
               <IconButton
-                className='bg-red-500/20'
+                className=''
                 onClick={onLike}
                 icon={<AiFillHeart size={20} className='text-red-500' />}
               />

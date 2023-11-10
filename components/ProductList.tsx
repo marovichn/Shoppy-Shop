@@ -5,7 +5,7 @@ import { Heart, ListChecks } from "lucide-react";
 
 interface ProductListProps {
   title: string;
-  items: Product[];
+  items: any;
   favorite?: boolean;
   wish?: boolean;
   wishlists?: any;
@@ -33,7 +33,7 @@ const ProductList: React.FC<ProductListProps> = ({
       </h3>
       {items.length === 0 && <NoResults />}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-        {items.map((item) => (
+        {items.map((item:any) => (
           <ProductCard
             favorites={favorites}
             wishlist={wishlists}

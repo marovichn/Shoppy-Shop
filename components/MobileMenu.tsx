@@ -44,7 +44,10 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} className=''>
+      <Button
+        onClick={() => setOpen(true)}
+        className='text-black bg-white border-[1px] border-black hover:bg-black hover:text-white transition'
+      >
         <Menu className='h-4 w-4' />
       </Button>
       <Transition.Root show={open} as='div'>
@@ -98,6 +101,9 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
                               "flex flex-col items-start  space-y-4"
                             )}
                           >
+                            <h1 className='font-semibold text-gray-400'>
+                              Categories
+                            </h1>
                             {routesFormatted.map((route) => (
                               <Link
                                 key={route.href}
@@ -114,7 +120,9 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
                             ))}
                           </nav>
                           <div className='max-sm:flex max-sm:flex-col hidden items-start justify-center gap-y-2'>
-                            <h3 className='font-semibold'>Actions</h3>
+                            <h3 className='font-semibold text-gray-400'>
+                              Actions
+                            </h3>
                             <NavbarActions />
                           </div>
                         </div>
