@@ -20,6 +20,7 @@ export interface Product{
   color: Color;
   images: Image[];
   stockAmount?: string
+  description?: string
 }
 
 export interface Image{
@@ -38,6 +39,16 @@ export interface Size{
   name:string
   value: string
 }
+export interface User {
+  id: string;
+  email: string;
+  storeId: string;
+  hashedPassword: string;
+  name: string;
+  lastname: string;
+  age: string;
+  gender: string;
+} 
 
 type Variant = "LOGIN" | "REGISTER";
 

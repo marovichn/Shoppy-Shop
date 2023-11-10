@@ -1,26 +1,56 @@
 "use client";
 
 import Image from "next/image";
-import { MouseEventHandler } from "react";
-import { Expand, ShoppingCart } from "lucide-react";
+import { MouseEventHandler, useEffect, useState } from "react";
+import {
+  CheckCheck,
+  Expand,
+  Heart,
+  ListChecks,
+  ShoppingCart,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import useCart from "@/hooks/use-cart";
-import { Product } from "@/types";
+import { Product, User } from "@/types";
 import usePreviewModal from "@/hooks/use-prview-modal";
 import IconButton from "./IconButton";
 import Currency from "./Currency";
 import toast from "react-hot-toast";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
 interface ProductCard {
   data: Product;
+  favorites?: any;
+  wishlist?: any;
 }
 
-const ProductCard: React.FC<ProductCard> = ({ data }) => {
+const ProductCard: React.FC<ProductCard> = ({ data, favorites, wishlist }) => {
+  const session = useSession();
   const previewModal = usePreviewModal();
   const cart = useCart();
   const router = useRouter();
   const stockAmount = data?.stockAmount ? Number(data?.stockAmount) : 1;
+  const [isLiked, setIsLiked] = useState(false);
+  const [isWish, setIsWish] = useState(false);
+
+  useEffect(() => {
+    if (favorites &&
+      favorites.filter((favorite: any) => favorite.productId === data.id)
+        .length > 0
+    ) {
+      setIsLiked(true);
+    }
+    if (
+      wishlist &&
+      wishlist.filter((favorite: any) => favorite.productId === data.id)
+        .length > 0
+    ) {
+      setIsWish(true);
+    }
+  }, [favorites, wishlist]);
 
   const handleClick = () => {
     router.push(`/product/${data?.id}`);
@@ -30,6 +60,17 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
     event.stopPropagation();
 
     previewModal.onOpen(data);
+  };
+
+  const onWish = async () => {
+    await axios.post("/api/wish", data);
+    setIsWish((p) => !p);
+  };
+  const onLike: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.stopPropagation();
+
+    await axios.post("/api/like", data);
+    setIsLiked((p)=>!p);
   };
 
   const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -81,6 +122,37 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
       <div className='flex items-center justify-between'>
         <Currency value={data?.price} />
       </div>
+      {/*Add to Favorites and Wishlist*/}
+      {session.data?.user && (
+        <div className='transition relative w-full z-20 pb-10'>
+          <div className='flex gap-x-6 justify-start transition absolute'>
+            {isLiked ? (
+              <IconButton
+                className='bg-red-500/20'
+                onClick={onLike}
+                icon={<AiFillHeart size={20} className='text-red-500' />}
+              />
+            ) : (
+              <IconButton
+                onClick={onLike}
+                icon={<AiOutlineHeart size={20} className='text-red-500' />}
+              />
+            )}
+            {isWish ? (
+              <IconButton
+                className='bg-green-600/20'
+                onClick={onWish}
+                icon={<CheckCheck size={20} className='text-green-600' />}
+              />
+            ) : (
+              <IconButton
+                onClick={onWish}
+                icon={<ListChecks size={20} className='text-gray-600' />}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -98,8 +98,6 @@ model Product {
   images      Image[]
   orderItems  OrderItem[] 
   stockAmount Decimal?
-  favoriteUsers User[]      @relation("UserFavoriteProducts")
-  usersWishlist User[]      @relation("UserWishlistProducts")
 
   @@index([storeId])
   @@index([categoryId])
@@ -147,11 +145,31 @@ model OrderItem {
 model User {
   id          String    @id @default(uuid())
   email       String    @unique
+  storeId      String
   hashedPassword    String
   name        String
   lastname    String
   age         String
   gender      String
-  favorites   Product[] @relation("UserFavoriteProducts")
-  wishlist    Product[] @relation("UserWishlistProducts")
+  favorites   Favorite[]
+  wishlist    Wishlist[]
+}
+
+model Favorite{
+  id  String    @id @default(uuid())
+  productId  String @unique
+  userId     String
+  user       User @relation(fields:[userId],references:[id])
+
+  @@index([userId])
+}
+
+model Wishlist{
+  id  String    @id @default(uuid())
+  productId  String @unique
+
+  userId     String
+  user       User @relation(fields:[userId],references:[id])
+
+  @@index([userId])
 }

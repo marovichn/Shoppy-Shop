@@ -9,11 +9,14 @@ export async function POST(request: Request) {
   if (age < 18) {
     return new Response("You must be at least 18 years old", { status: 403 });
   }
+  const store = process.env.NEXT_PUBLIC_API_URL!;
+  const [storeId] = store.split("/").slice(-1);
 
   const user = await db.user.create({
     data: {
       email,
       name,
+      storeId,
       hashedPassword,
       lastname,
       age,
@@ -21,5 +24,5 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json(user);
+  return NextResponse.json("user");
 }
