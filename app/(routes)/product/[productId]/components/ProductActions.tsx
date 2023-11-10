@@ -36,7 +36,7 @@ const ProductActions: FC<ProductActionsProps> = ({
     ) {
       setIsWish(true);
     }
-  }, [favorites, wishlist]);
+  }, [favorites, wishlist, data.id]);
 
   const onWish = async () => {
     await axios.post("/api/wish", data);

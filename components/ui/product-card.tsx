@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductCard> = ({ data, favorites, wishlist }) => {
     ) {
       setIsWish(true);
     }
-  }, [favorites, wishlist]);
+  }, [favorites, wishlist, data.id]);
 
   const handleClick = () => {
     router.push(`/product/${data?.id}`);
