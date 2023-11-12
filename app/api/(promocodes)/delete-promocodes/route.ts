@@ -21,38 +21,22 @@ export async function POST(req: Request) {
       where: {
         email: session.user.email,
       },
+      include: {
+        promocodes: true,
+      },
     });
 
     if (!currentUser) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    const currentUserCurrentFavorite = await db.favorite.findUnique({
+    await db.promocodes.deleteMany({
       where: {
-        productId: data.id,
         userId: currentUser.id,
       },
     });
-
-    if (!currentUserCurrentFavorite) {
-      await db.favorite.create({
-        data: {
-          productId: data.id,
-          userId: currentUser.id,
-        },
-      });
-
-      return new NextResponse("Added successfully", { status: 200 });
-    }
-
-    await db.favorite.delete({
-      where: {
-        id: currentUserCurrentFavorite.id,
-        userId: currentUser.id,
-      },
-    });
-    // Respond with the updated favorites list
-    return NextResponse.json("Successfully added", { status: 200 });
+    // Respond with the updated users codes list
+    return NextResponse.json("Success", { status: 200 });
   } catch (error) {
-    console.log("ERR_LIKE", error);
+    console.log("ERR_PROMOS", error);
   }
 }

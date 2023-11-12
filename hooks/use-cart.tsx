@@ -6,15 +6,36 @@ import { Product } from "@/types";
 
 interface CartStore {
   items: Product[];
+  promotions: any[];
   addItem: (data: Product) => void;
+  addPromo: (data: any) => void;
   removeItem: (id: string) => void;
+  removePromo: (id: string) => void;
   removeAll: () => void;
+  removeAllPromos: () => void;
 }
 
 const useCart = create(
   persist<CartStore>(
     (set, get) => ({
       items: [],
+      promotions: [],
+      addPromo: (data: any) => {
+        const currentPromos = get().promotions;
+        const exists = currentPromos.includes(data);
+        if (exists) {
+          return toast.success("This discount is already active");
+        } else {
+          set({ promotions: [...get().promotions, data] });
+        }
+      },
+      removePromo: (id: string) => {
+        const allPromos = get().promotions;
+        set({ promotions: [allPromos.filter((promo:any)=>promo.id !== id)] });
+      },
+      removeAllPromos:()=>{
+         set({ promotions: [] });
+      },
       addItem: (data: Product) => {
         const currentItems = get().items;
         const existingSameItems = currentItems.filter(

@@ -29,6 +29,7 @@ export async function POST(req: Request) {
     const currentUserCurrentWishedItem = await db.wishlist.findUnique({
       where: {
         productId: data.id,
+        userId: currentUser.id
       },
     });
 
@@ -46,6 +47,7 @@ export async function POST(req: Request) {
     await db.wishlist.delete({
       where: {
         id: currentUserCurrentWishedItem.id,
+        userId:currentUser.id
       },
     });
     // Respond with the updated favorites list

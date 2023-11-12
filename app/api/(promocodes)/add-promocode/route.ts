@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
+    const {promocode} = await req.json();
     const session = await getServerSession(authOptions);
 
     if (!session) {
@@ -21,38 +21,31 @@ export async function POST(req: Request) {
       where: {
         email: session.user.email,
       },
+      include: {
+        promocodes: true,
+      },
     });
 
     if (!currentUser) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    const currentUserCurrentFavorite = await db.favorite.findUnique({
-      where: {
-        productId: data.id,
-        userId: currentUser.id,
-      },
-    });
-
-    if (!currentUserCurrentFavorite) {
-      await db.favorite.create({
-        data: {
-          productId: data.id,
+    if (currentUser.promocodes.length === 1) {
+      await db.promocodes.deleteMany({
+        where: {
           userId: currentUser.id,
         },
       });
-
-      return new NextResponse("Added successfully", { status: 200 });
     }
 
-    await db.favorite.delete({
-      where: {
-        id: currentUserCurrentFavorite.id,
+    await db.promocodes.create({
+      data: {
+        ...promocode,
         userId: currentUser.id,
       },
     });
-    // Respond with the updated favorites list
-    return NextResponse.json("Successfully added", { status: 200 });
+    // Respond with the updated users codes list
+    return NextResponse.json("Success", { status: 200 });
   } catch (error) {
-    console.log("ERR_LIKE", error);
+    console.log("ERR_PROMOS", error);
   }
 }

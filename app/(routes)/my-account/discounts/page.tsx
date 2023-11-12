@@ -5,6 +5,7 @@ import db from "@/lib/db";
 import { Heart, ListChecks, Percent } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { FC } from "react";
+import DiscountsList from "./components/DiscountsList";
 
 interface pageProps {}
 
@@ -36,7 +37,7 @@ const page: FC<pageProps> = async ({}) => {
             Discounts
           </div>
         </h3>
-        No discounts yet..
+        <DiscountsList />
       </div>
     </Container>
   );
