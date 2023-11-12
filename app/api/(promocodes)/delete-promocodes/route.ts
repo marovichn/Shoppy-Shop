@@ -7,7 +7,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
     const session = await getServerSession(authOptions);
 
     if (!session) {
@@ -29,7 +28,7 @@ export async function POST(req: Request) {
     if (!currentUser) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    await db.promocodes.deleteMany({
+    await db.userPromocodes.deleteMany({
       where: {
         userId: currentUser.id,
       },

@@ -20,6 +20,7 @@ export async function POST(req: Request) {
         userAccessCode: userAccessCode,
       },
     });
+    console.log(promocode)
 
     if (!promocode) {
       return new NextResponse("Invalid code", { status: 400 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
@@ -9,12 +9,29 @@ import { Button } from "@/components/ui/button";
 import useCart from "@/hooks/use-cart";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 interface CodeInputFormProps {}
 
 const CodeInputForm: FC<CodeInputFormProps> = ({}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isActivated, setIsActivated] = useState(false);
   const cart = useCart();
+  const router = useRouter();
+
+  useEffect(() => {
+    axios
+      .post("/api/check-promocodes")
+      .then((dataRaw) => dataRaw.data)
+      .then((data) => {
+        if (data) {
+          setIsActivated(true);
+        } else {
+          setIsActivated(false);
+        }
+      });
+  }, []);
 
   const {
     register,
@@ -30,13 +47,14 @@ const CodeInputForm: FC<CodeInputFormProps> = ({}) => {
     setIsLoading(true);
     try {
       const promotion = await axios.post("/api/get-promocode-data", data);
-      if(!promotion){
-        toast.error("Invalid Code")
+      console.log(promotion);
+      if (!promotion.data) {
+        toast.error("Invalid Code");
       }
-      const currentUserPromotions = (await axios.post(
+      const currentUserPromotionsExist = await axios.post(
         "/api/check-promocodes"
-      )) as any[];
-      if (currentUserPromotions.length === 1) {
+      );
+      if (currentUserPromotionsExist.data) {
         toast.error(
           <div className='bg-white rounded-lg  flex items-center justify-center gap-x-4 transition pl-5'>
             <div>Deactivate first?</div>
@@ -45,28 +63,41 @@ const CodeInputForm: FC<CodeInputFormProps> = ({}) => {
               onClick={async () => {
                 await axios.post("/api/delete-promocodes");
                 cart.removeAll();
-                toast.success("Removed successfully");
+                toast.success("Deactivated successfully");
+                if (location) {
+                  location.reload();
+                }
               }}
             >
               Yes
             </Button>
           </div>
         );
-      }
-      if (currentUserPromotions.length === 0) {
-        await axios.post("/api/add-promocode", promotion);
-        cart.addPromo(promotion);
+      } else {
+        await axios.post("/api/add-promocode", { promocode: promotion.data });
+        cart.addPromo(promotion.data);
         toast.success("Code activated!");
+        if (location) {
+          location.reload();
+        }
       }
-    } catch (error) {
-      toast.error("Code not valid");
+    } catch (error: any) {
+      if (error.response.status === 403) {
+        toast.error("Code expired");
+      } else {
+        toast.error("Code not valid");
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-xl my-20 border-2 rounded-lg border-violet-700'>
+    <div
+      className={cn(
+        "mt-8 sm:mx-auto sm:w-full sm:max-w-xl my-20 border-2 rounded-lg border-violet-700"
+      )}
+    >
       <div
         className='
         bg-white
@@ -74,8 +105,10 @@ const CodeInputForm: FC<CodeInputFormProps> = ({}) => {
           py-10
           pb-20
           shadow
-          sm:rounded-lg
+          rounded-md
           sm:px-6 relative
+          border-violet-700
+          border-b-2
         '
       >
         <form className='space-y-6 ' onSubmit={handleSubmit(onSubmit)}>
@@ -97,13 +130,51 @@ const CodeInputForm: FC<CodeInputFormProps> = ({}) => {
               type='submit'
               className='flex items-center justify-center gap-x-5 w-full bg-violet-500 hover:bg-violet-700'
             >
-              {!isLoading && "Enter code"}
+              {!isLoading && (
+                <div className='flex items-center justify-center gap-x-1'>
+                  Enter{"  "}
+                  <span
+                    className={cn("font-extrabold", {
+                      hidden: !isActivated,
+                    })}
+                  >
+                    NEW
+                  </span>
+                  code
+                </div>
+              )}
               {isLoading && (
                 <p className='border-b-4 border-white animate spin rounded-full h-5 w-5 animate-spin'></p>
               )}
             </Button>
           </div>
         </form>
+      </div>
+      <div
+        className={cn(
+          "flex flex-col py-5  w-full justify-center items-center text-green-600 bg-lime-300 -mt-2 gap-y-3 rounded-b-md",
+          {
+            hidden: !isActivated,
+          }
+        )}
+      >
+        One code is already active!
+        <div className='bg-white rounded-lg  flex items-center justify-center gap-x-4 transition pl-5 border-2 border-red-600'>
+          <div className='text-red-500'>Deactivate first?</div>
+          <Button
+            className='bg-red-600 hover:bg-red-800'
+            onClick={async () => {
+              await axios.post("/api/delete-promocodes");
+              cart.removeAll();
+              toast.success("Deactivated successfully");
+              if (location) {
+                location.reload();
+              }
+            }}
+          >
+            Yes
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -7,7 +7,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
     const session = await getServerSession(authOptions);
 
     if (!session) {
@@ -30,12 +29,14 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
     const userPromocodes = currentUser.promocodes;
-    if (!userPromocodes) {
-      return NextResponse.json([]);
+    console.log(userPromocodes)
+    if (!userPromocodes || userPromocodes.length === 0) {
+      return NextResponse.json(false);
     }
     // Respond with the updated users codes list
-    return NextResponse.json(userPromocodes);
-  } catch (error) {
+    return NextResponse.json(true);
+  } catch (error:any) {
     console.log("ERR_PROMOS", error);
+    console.log(error.message)
   }
 }
