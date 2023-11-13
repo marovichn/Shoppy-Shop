@@ -25,9 +25,7 @@ const CartPage = () => {
     if (!session) {
       return;
     }
-    axios
-      .get("/api/get-user-data")
-      .then((user) => setCurrentUser(user.data));
+    axios.get("/api/get-user-data").then((user) => setCurrentUser(user.data));
   }, []);
 
   if (!isMounted) {
@@ -52,7 +50,7 @@ const CartPage = () => {
                 ))}
               </ul>
             </div>
-            <Summary promocode={currentUser?.promocodes[0]}/>
+            <Summary promocode={currentUser?.promocodes[0]} />
           </div>
         </div>
       </Container>

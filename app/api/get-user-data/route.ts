@@ -5,17 +5,28 @@ import db from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", {
+        status: 401,
+        headers: {
+          "Content-Type": "application/json", // Add Content-Type header
+        },
+      });
     }
 
     if (!session?.user?.email) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", {
+        status: 401,
+        headers: {
+          "Content-Type": "application/json", // Add Content-Type header
+        },
+      });
     }
+
     const currentUser = await db.user.findUnique({
       where: {
         email: session.user.email,
@@ -26,12 +37,27 @@ export async function GET() {
     });
 
     if (!currentUser) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", {
+        status: 401,
+        headers: {
+          "Content-Type": "application/json", // Add Content-Type header
+        },
+      });
     }
-    
-    return NextResponse.json(currentUser);
-  } catch (error: any) {
-    console.log("ERR_GET_USER", error);
-    console.log(error.message);
+
+    return new NextResponse(JSON.stringify(currentUser), {
+      headers: {
+        "Content-Type": "application/json", // Add Content-Type header
+      },
+    });
+  } catch (error:any) {
+    console.error("ERR_GET_USER", error);
+    console.error(error.message);
+    return new NextResponse("Internal Server Error", {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json", // Add Content-Type header
+      },
+    });
   }
 }
