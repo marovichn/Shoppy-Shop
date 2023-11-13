@@ -48,6 +48,7 @@ export interface User {
   lastname: string;
   age: string;
   gender: string;
+  promocodes?:any;
 } 
 
 type Variant = "LOGIN" | "REGISTER";

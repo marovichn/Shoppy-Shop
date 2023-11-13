@@ -7,20 +7,34 @@ import useCart from "@/hooks/use-cart";
 
 import Summary from "./components/Summary";
 import CartItem from "./components/CartItem";
+import { User } from "@/types";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
 export const revalidate = 0;
 
 const CartPage = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User>();
+
+  const session = useSession();
   const cart = useCart();
 
   useEffect(() => {
     setIsMounted(true);
+    if (!session) {
+      return;
+    }
+    axios
+      .get("/api/get-user-data")
+      .then((user) => setCurrentUser(user.data));
   }, []);
 
   if (!isMounted) {
     return null;
   }
+
+  console.log(currentUser?.promocodes[0]);
 
   return (
     <div className='bg-white mt-16'>
@@ -38,7 +52,7 @@ const CartPage = () => {
                 ))}
               </ul>
             </div>
-            <Summary />
+            <Summary promocode={currentUser?.promocodes[0]}/>
           </div>
         </div>
       </Container>
