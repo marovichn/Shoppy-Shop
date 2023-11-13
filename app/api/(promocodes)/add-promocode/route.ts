@@ -8,7 +8,6 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    console.log(data.promocode);
     const session = await getServerSession(authOptions);
 
     if (!session) {

@@ -29,7 +29,6 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
     const userPromocodes = currentUser.promocodes;
-    console.log(userPromocodes)
     if (!userPromocodes || userPromocodes.length === 0) {
       return NextResponse.json(false);
     }
@@ -37,6 +36,5 @@ export async function POST(req: Request) {
     return NextResponse.json(true);
   } catch (error:any) {
     console.log("ERR_PROMOS", error);
-    console.log(error.message)
   }
 }

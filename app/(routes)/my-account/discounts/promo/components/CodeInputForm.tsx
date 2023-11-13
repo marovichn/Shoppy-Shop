@@ -47,7 +47,7 @@ const CodeInputForm: FC<CodeInputFormProps> = ({}) => {
     setIsLoading(true);
     try {
       const promotion = await axios.post("/api/get-promocode-data", data);
-      console.log(promotion);
+      
       if (!promotion.data) {
         toast.error("Invalid Code");
       }

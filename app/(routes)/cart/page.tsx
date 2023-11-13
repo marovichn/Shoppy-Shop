@@ -32,7 +32,6 @@ const CartPage = () => {
     return null;
   }
 
-  console.log(currentUser?.promocodes[0]);
 
   return (
     <div className='bg-white mt-16'>
