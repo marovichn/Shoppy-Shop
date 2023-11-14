@@ -1,16 +1,32 @@
-
+import { authOptions } from "@/lib/authOptions";
+import db from "@/lib/db";
 import { QrCode } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { FC } from "react";
 import { BsCashCoin } from "react-icons/bs";
 
 interface DiscountsListProps {}
 
-const DiscountsList: FC<DiscountsListProps> = ({}) => {
+const DiscountsList: FC<DiscountsListProps> = async ({}) => {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email) {
+    redirect("/my-account");
+  }
+
+  const currentUser = await db.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if(!currentUser){
+    redirect("/my-account");
+  }
+
   return (
     <div className='flex flex-col w-full h-full gap-y-2 items-start justify-center py-16 '>
       <Link
-        href='/my-account/discounts/qr'
+        href={`/my-account/discounts/qr/${currentUser?.id}`}
         className='bg-gray-50 p-3 flex items-center justify-start rounded-xl w-full hover:bg-gray-200 cursor-pointer px-6'
       >
         <h3
