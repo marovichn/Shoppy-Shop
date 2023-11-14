@@ -26,7 +26,7 @@ const CartPage = () => {
       return;
     }
     axios.get("/api/get-user-data").then((user) => setCurrentUser(user.data)).catch((err)=>console.log(err));
-  }, []);
+  }, [session]);
 
   if (!isMounted) {
     return null;
