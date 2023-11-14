@@ -25,7 +25,7 @@ const CartPage = () => {
     if (!session) {
       return;
     }
-    axios.get("/api/get-user-data").then((user) => setCurrentUser(user.data));
+    axios.get("/api/get-user-data").then((user) => setCurrentUser(user.data)).catch((err)=>console.log(err));
   }, []);
 
   if (!isMounted) {

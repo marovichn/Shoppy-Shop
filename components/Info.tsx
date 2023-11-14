@@ -1,6 +1,14 @@
 "use client";
 
-import { MinusCircle, PlusCircle, ShoppingCart } from "lucide-react";
+import {
+  ArrowBigDownDash,
+  ArrowBigDownIcon,
+  ArrowBigUpDash,
+  ArrowBigUpIcon,
+  MinusCircle,
+  PlusCircle,
+  ShoppingCart,
+} from "lucide-react";
 
 import { Product } from "@/types";
 import Currency from "./ui/Currency";
@@ -26,6 +34,7 @@ const Info: React.FC<InfoProps> = ({
   const cart = useCart();
   const stockAmount = data?.stockAmount ? Number(data?.stockAmount) : 1;
   const [amountChosen, setAmountChosen] = useState(1);
+  const [hidden, setHidden] = useState(false);
 
   const onAddToCart = () => {
     if (amountChosen > stockAmount || amountChosen <= 0) return;
@@ -90,6 +99,24 @@ const Info: React.FC<InfoProps> = ({
         <div className='flex items-center gap-x-4'>
           <h3 className='font-semibold text-black'>In-stock:</h3>
           <div>{stockAmount}</div>
+        </div>
+        <div className='flex flex-col justify-center items-start gap-y-4 trasnition'>
+          <h3 className='font-semibold text-black'>Description:</h3>
+          {!hidden && <div className="transition">{data.description?.slice(0, 50)}...</div>}
+          {hidden && (
+            <div className="transition">
+              {data.description?.split(". ").map((sentance) => (
+                <p className='py-3'>{sentance}.</p>
+              ))}
+            </div>
+          )}
+          <div
+            className='flex gap-x-2 justify-center items-center border-[1px] border-black p-2 rounded-md hover:bg-black/10 transition cursor-pointer'
+            onClick={() => setHidden((p) => !p)}
+          >
+            Show {!hidden ? "more" : "less"}{" "}
+            {!hidden ? <ArrowBigDownIcon /> : <ArrowBigUpIcon />}
+          </div>
         </div>
       </div>
       <div className='mt-10 flex items-center gap-x-3'>
