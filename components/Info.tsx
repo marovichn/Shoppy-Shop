@@ -106,7 +106,7 @@ const Info: React.FC<InfoProps> = ({
           {hidden && (
             <div className="transition">
               {data.description?.split(". ").map((sentance) => (
-                <p className='py-3'>{sentance}.</p>
+                <p key={sentance} className='py-3'>{sentance}.</p>
               ))}
             </div>
           )}
