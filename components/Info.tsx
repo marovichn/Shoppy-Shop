@@ -7,6 +7,7 @@ import {
   ArrowBigUpIcon,
   MinusCircle,
   PlusCircle,
+  ShoppingBag,
   ShoppingCart,
 } from "lucide-react";
 
@@ -17,6 +18,7 @@ import useCart from "@/hooks/use-cart";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import ProductActions from "@/app/(routes)/product/[productId]/components/ProductActions";
+import { useRouter } from "next/navigation";
 
 interface InfoProps {
   data: Product;
@@ -35,6 +37,7 @@ const Info: React.FC<InfoProps> = ({
   const stockAmount = data?.stockAmount ? Number(data?.stockAmount) : 1;
   const [amountChosen, setAmountChosen] = useState(1);
   const [hidden, setHidden] = useState(false);
+  const router = useRouter();
 
   const onAddToCart = () => {
     if (amountChosen > stockAmount || amountChosen <= 0) return;
@@ -102,11 +105,17 @@ const Info: React.FC<InfoProps> = ({
         </div>
         <div className='flex flex-col justify-center items-start gap-y-4 trasnition'>
           <h3 className='font-semibold text-black'>Description:</h3>
-          {!hidden && <div className="transition">{data.description?.slice(0, 50)}...</div>}
+          {!hidden && (
+            <div className='transition'>
+              {data.description?.slice(0, 50)}...
+            </div>
+          )}
           {hidden && (
-            <div className="transition">
+            <div className='transition'>
               {data.description?.split(". ").map((sentance) => (
-                <p key={sentance} className='py-3'>{sentance}.</p>
+                <p key={sentance} className='py-3'>
+                  {sentance}.
+                </p>
               ))}
             </div>
           )}
@@ -138,11 +147,11 @@ const Info: React.FC<InfoProps> = ({
           <PlusCircle></PlusCircle>
         </Button>
       </div>
-      <div className='mt-10 flex items-center gap-x-3'>
+      <div className='mt-10 flex items-center gap-3 max-sm:flex-col flex-row'>
         <Button
           disabled={stockAmount === 0}
           onClick={onAddToCart}
-          className='flex items-center gap-x-2 rounded-full max-sm:w-full'
+          className='flex items-center gap-x-2 rounded-full max-sm:w-full '
         >
           {stockAmount === 0 ? (
             <p className='text-red-500 '>No more in stock.</p>
@@ -150,6 +159,15 @@ const Info: React.FC<InfoProps> = ({
             "Add To Cart"
           )}
           <ShoppingCart size={20} />
+        </Button>
+        <Button
+          onClick={() => router.push("/cart")}
+          className='flex items-center gap-x-2 rounded-full max-sm:w-full px-4 py-2 text-black bg-white border-[1px] border-black hover:bg-gray-200'
+        >
+          <ShoppingBag size={20} color='black' />
+          <span className='ml-2 text-sm font-medium text-black'>
+            {cart.items.length}
+          </span>
         </Button>
       </div>
     </div>
