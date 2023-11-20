@@ -32,7 +32,7 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
   const params = useParams();
   const pathname = usePathname();
 
-  const routesFormatted = routes.map((route) => ({
+  const routesFormatted: any[] = routes.map((route) => ({
     href: `/category/${route.id}`,
     label: route.name,
     active: pathname === `/category/${route.id}`,
@@ -104,7 +104,7 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
                             <h1 className='font-semibold text-gray-400'>
                               Categories
                             </h1>
-                            {routesFormatted.map((route) => (
+                            {routesFormatted.length !== 0 ? routesFormatted.map((route) => (
                               <Link
                                 key={route.href}
                                 href={route.href}
@@ -117,7 +117,7 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
                               >
                                 {route.label}
                               </Link>
-                            ))}
+                            )): <div>No Categories</div>}
                           </nav>
                           <div className='max-sm:flex max-sm:flex-col hidden items-start justify-center gap-y-2'>
                             <h3 className='font-semibold text-gray-400'>
