@@ -14,11 +14,13 @@ model Store {
   name            String
   userId          String
   products        Product[]  @relation("StoreToProduct")
+  brands          Brand[]  @relation("StoreToBrand")
   billboards      Billboard[] @relation("StoreToBillboard")
   categories      Category[]  @relation("StoreToCategory")
   sizes           Size[]      @relation("StoreToSize")
   colors          Color[]    @relation("StoreToColor")  
   orders          Order[]    @relation("StoreToOrder")
+  reviews         Review[]    @relation("StoreToReview")
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 }
@@ -89,6 +91,8 @@ model Product {
   price       Decimal
   isFeatured  Boolean   @default(false)
   isArchived  Boolean   @default(false)
+  brandId  String   
+  brand    Brand  @relation(fields: [brandId], references: [id])
   sizeId      String   
   size        Size      @relation(fields: [sizeId], references: [id])
   colorId     String    
@@ -97,12 +101,43 @@ model Product {
   updatedAt   DateTime  @updatedAt
   images      Image[]
   orderItems  OrderItem[] 
+  reviews     Review[]
   stockAmount Decimal?
 
   @@index([storeId])
   @@index([categoryId])
   @@index([sizeId])
   @@index([colorId])
+  @@index([brandId])
+}
+
+model Review{
+  id            String   @id @default(uuid())
+  storeId       String   
+  store         Store    @relation("StoreToReview", fields: [storeId], references: [id])
+  userId        String
+  user          User     @relation("UserToReview", fields: [userId], references: [id])
+  productId     String   
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  description   String   @db.VarChar(5000)
+  value         String
+
+  @@index([storeId])
+  @@index([userId])
+  @@index([productId])
+}
+model Brand {
+  id          String    @id @default(uuid())
+  storeId     String   
+  store       Store     @relation("StoreToBrand", fields: [storeId], references: [id]) 
+  products    Product[]  
+  name        String
+  description String    @db.VarChar(5000) 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  images      Image[]
+
+  @@index([storeId])
 }
 
 
@@ -110,11 +145,14 @@ model Image {
   id          String   @id @default(uuid())
   productId   String   
   product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  brandId   String   
+  brand     Brand  @relation(fields: [brandId], references: [id], onDelete: Cascade)
   url         String  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([productId])
+  @@index([brandId])
 }
 
 model Order {
@@ -153,6 +191,7 @@ model User {
   favorites   Favorite[]
   wishlist    Wishlist[]
   promocodes  UserPromocodes[]
+  reviews     Review[]    @relation("UserToReview")
 }
 
 model Favorite{
