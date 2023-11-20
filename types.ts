@@ -22,6 +22,16 @@ export interface Product{
   stockAmount?: string
   description?: string
 }
+export interface Brand {
+  id: string;
+  storeId: string;
+  name: string;
+  description: string;
+  images: Image[];
+  products: Product[];
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export interface Image{
   id:string
