@@ -57,7 +57,7 @@ export default async function Home() {
                 const items = await getProducts({ brandId: brand.id });
 
                 return (
-                  <div className='w-full'>
+                  <div className='w-full' key={brand.id}>
                     <ProductsHorizontalList
                       title={`${brand.name} - Special Deal`}
                       items={items}
@@ -103,7 +103,7 @@ export default async function Home() {
                 const items = await getProducts({ brandId: brand.id });
 
                 return (
-                  <div className='w-full'>
+                  <div className='w-full' key={brand.id}>
                     <ProductsHorizontalList
                       title={`${brand.name} - Special Deal`}
                       items={items}
@@ -149,9 +149,8 @@ export default async function Home() {
             .slice(0, 2)
             .map(async (brand: any) => {
               const items = await getProducts({ brandId: brand.id });
-
               return (
-                <div className='w-full'>
+                <div className='w-full' key={brand.id}>
                   <ProductsHorizontalList
                     title={`${brand.name} - Special Deal`}
                     items={items}
