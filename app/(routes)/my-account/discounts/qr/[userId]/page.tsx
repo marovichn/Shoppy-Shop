@@ -37,7 +37,7 @@ const Page: FC<pageProps> = ({ params }) => {
               <img
                 src={`https://qrickit.com/api/qr.php?d=https://shoppy-shop.vercel.app/add-qr-promocode/${params.userId}&txtcolor=000000&fgdcolor=000000
 &bgdcolor=C0F912&qrsize=350&t=p&e=m`}
-              ></img>
+              alt="Promo QR"></img>
             </div>
           </div>
         </Container>
