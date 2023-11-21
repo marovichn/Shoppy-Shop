@@ -12,6 +12,7 @@ import MobileFilters from "./components/MobileFIlters";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import db from "@/lib/db";
+import CategoryProducts from "./components/CategoryProducts";
 
 interface CategoryPageProps {
   params: { categoryId: string };
@@ -51,14 +52,7 @@ const CategoryPage: FC<CategoryPageProps> = async ({
                 <Filter name='Sizes' data={sizes} valueKey='sizeId' />
                 <Filter name='Colors' data={colors} valueKey='colorId' />
               </div>
-              <div className='mt-6 lg:col-span-4 lg:mt-0'>
-                {products.length === 0 && <NoResults />}
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-                  {products.map((product) => (
-                    <ProductCard key={product.id} data={product} />
-                  ))}
-                </div>
-              </div>
+              <CategoryProducts products={products} />
             </div>
           </div>
         </Container>
@@ -87,14 +81,7 @@ const CategoryPage: FC<CategoryPageProps> = async ({
                 <Filter name='Sizes' data={sizes} valueKey='sizeId' />
                 <Filter name='Colors' data={colors} valueKey='colorId' />
               </div>
-              <div className='mt-6 lg:col-span-4 lg:mt-0'>
-                {products.length === 0 && <NoResults />}
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-                  {products.map((product) => (
-                    <ProductCard key={product.id} data={product} />
-                  ))}
-                </div>
-              </div>
+              <CategoryProducts products={products} />
             </div>
           </div>
         </Container>
@@ -126,17 +113,11 @@ const CategoryPage: FC<CategoryPageProps> = async ({
               <Filter name='Colors' data={colors} valueKey='colorId' />
             </div>
             <div className='mt-6 lg:col-span-4 lg:mt-0'>
-              {products.length === 0 && <NoResults />}
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-                {products.map((product) => (
-                  <ProductCard
-                    wishlist={wishlist}
-                    favorites={favorites}
-                    key={product.id}
-                    data={product}
-                  />
-                ))}
-              </div>
+              <CategoryProducts
+                products={products}
+                wishlist={wishlist}
+                favorites={favorites}
+              />
             </div>
           </div>
         </div>

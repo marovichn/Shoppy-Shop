@@ -13,10 +13,14 @@ const BrandsList: React.FC<BrandsListProps> = ({
   items,
 }) => {
   return (
-    <div className='space-y-4'>
-      <h3 className={`font-bold text-3xl flex gap-x-2 pb-10`}>{title}</h3>
+    <div className='space-y-4 w-full'>
+      <h3
+        className={`font-bold text-3xl flex gap-x-2 pb-4`}
+      >
+        {title}
+      </h3>
       {items.length === 0 && <NoResults />}
-      <div className='w-[calc(100vw-55px)] flex flex-row overflow-x-auto gap-x-5 px-10 pb-10'>
+      <div className='flex w-[calc(100%-10px)] overflow-x-auto pb-4 gap-x-5'>
         {items.map((item: Brand) => (
           <BrandCard key={item.id} data={item} />
         ))}
