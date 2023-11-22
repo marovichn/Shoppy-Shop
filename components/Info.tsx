@@ -19,6 +19,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import ProductActions from "@/app/(routes)/product/[productId]/components/ProductActions";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import BrandCard from "./BrandCard";
 
 interface InfoProps {
   data: Product;
@@ -88,6 +90,18 @@ const Info: React.FC<InfoProps> = ({
       </div>
       <hr className='my-4' />
       <div className='flex flex-col gap-y-6'>
+        <div className='flex flex-col items-start gap-y-4'>
+          <div className='flex items-center gap-x-4'>
+            <h3 className='font-semibold text-black'>Brand:</h3>
+            <Link
+              href={`/brands/${data?.brand?.id}`}
+              className='curosor-pointer underline'
+            >
+              {data?.brand?.name}
+            </Link>
+          </div>
+          <BrandCard data={data?.brand} badge></BrandCard>
+        </div>
         <div className='flex items-center gap-x-4'>
           <h3 className='font-semibold text-black'>Size:</h3>
           <div>{data?.size?.value}</div>

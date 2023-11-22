@@ -7,7 +7,6 @@ import Gallery from "@/components/gallery";
 import db from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import ProductActions from "./components/ProductActions";
 
 export const revalidate = 0;
 

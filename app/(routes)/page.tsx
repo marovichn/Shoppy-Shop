@@ -48,7 +48,7 @@ export default async function Home() {
             <BrandsList title='Brands' items={brands} />
           </div>
           <div className='flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8'>
-            <h3 className={`font-bold text-5xl max-sm:text-3xl flex gap-x-2`}>
+            <h3 className={`font-bold text-3xl max-sm:text-2xl flex gap-x-2`}>
               Special Brand Deals
             </h3>
             {shuffleArray(brands)
@@ -94,7 +94,7 @@ export default async function Home() {
             <BrandsList title='Brands' items={brands} />
           </div>
           <div className='flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8'>
-            <h3 className={`font-bold text-5xl max-sm:text-3xl flex gap-x-2`}>
+            <h3 className={`font-bold text-3xl max-sm:text-2xl flex gap-x-2`}>
               Special Brand Deals
             </h3>
             {shuffleArray(brands)
@@ -154,6 +154,8 @@ export default async function Home() {
                   <ProductsHorizontalList
                     title={`${brand.name} - Special Deal`}
                     items={items}
+                    favorites={favorites}
+                    wishlists={wishlist}
                   />
                 </div>
               );

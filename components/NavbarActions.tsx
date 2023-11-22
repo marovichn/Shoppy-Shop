@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingBag, User } from "lucide-react";
+import { ShoppingBag, User, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -23,6 +23,14 @@ const NavbarActions = () => {
 
   return (
     <div className='ml-auto flex items-center gap-x-1 mr-6 w-full'>
+      <div className='max-sm:hidden'>
+        <Button
+          onClick={() => router.push("/search")}
+          className='flex items-center rounded-md py-2 text-black bg-white border-[1px] border-black hover:bg-gray-200'
+        >
+          <Search size={20} color='black' />
+        </Button>
+      </div>
       <Button
         onClick={() => router.push("/cart")}
         className='flex items-center rounded-md  px-4 py-2 text-black bg-white border-[1px] border-black hover:bg-gray-200'

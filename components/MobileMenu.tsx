@@ -10,13 +10,14 @@ import {
   Menu,
   Palette,
   PencilRuler,
+  Search,
   Settings,
   Table,
   X,
 } from "lucide-react";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import NavbarActions from "./NavbarActions";
@@ -31,6 +32,7 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
   const [open, setOpen] = useState<boolean>(false);
   const params = useParams();
   const pathname = usePathname();
+  const router = useRouter();
 
   const routesFormatted: any[] = routes.map((route) => ({
     href: `/category/${route.id}`,
@@ -70,7 +72,7 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
                   leaveFrom='translate-x-0'
                   leaveTo='-translate-x-full'
                 >
-                  <Dialog.Panel className='pointer-events-auto w-screen max-w-[200px] overflow-y-auto  h-screen border-r-[1px] dark:border-r-slate-500 border-r-slate-900'>
+                  <Dialog.Panel className='pointer-events-auto w-screen max-w-[200px] overflow-y-auto  h-screen border-r-[1px] dark:border-r-slate-500 border-r-slate-900 rounded-r-xl'>
                     <div className='flex h-full flex-col overflow-y-auto dark:bg-slate-950 bg-white py-6 shadow-xl'>
                       <div className='px-4 sm:px-6'>
                         <div className='flex items-start justify-between overflow-y-auto'>
@@ -104,26 +106,36 @@ const MobileLayout: FC<MobileLayoutProps> = ({ routes = [] }) => {
                             <h1 className='font-semibold text-gray-400'>
                               Categories
                             </h1>
-                            {routesFormatted.length !== 0 ? routesFormatted.map((route) => (
-                              <Link
-                                key={route.href}
-                                href={route.href}
-                                className={cn(
-                                  "text-sm font-medium transition-colors hover:text-black",
-                                  route.active
-                                    ? "text-black"
-                                    : "text-neutral-500"
-                                )}
-                              >
-                                {route.label}
-                              </Link>
-                            )): <div>No Categories</div>}
+                            {routesFormatted.length !== 0 ? (
+                              routesFormatted.map((route) => (
+                                <Link
+                                  key={route.href}
+                                  href={route.href}
+                                  className={cn(
+                                    "text-sm font-medium transition-colors hover:text-black",
+                                    route.active
+                                      ? "text-black"
+                                      : "text-neutral-500"
+                                  )}
+                                >
+                                  {route.label}
+                                </Link>
+                              ))
+                            ) : (
+                              <div>No Categories</div>
+                            )}
                           </nav>
                           <div className='max-sm:flex max-sm:flex-col hidden items-start justify-center gap-y-2'>
                             <h3 className='font-semibold text-gray-400'>
                               Actions
                             </h3>
                             <NavbarActions />
+                            <Button
+                              onClick={() => router.push("/search")}
+                              className='flex items-center rounded-md py-2 text-black bg-white border-[1px] border-black gap-x-4 hover:bg-gray-200'
+                            >
+                              <Search size={20} color='black' /> Go to search
+                            </Button>
                           </div>
                         </div>
                         {/* content end */}

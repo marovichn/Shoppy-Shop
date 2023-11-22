@@ -91,7 +91,7 @@ const ProductHorizontalCard: React.FC<ProductHorizontalCard> = ({ data, favorite
   };
 
   return (
-    <div className='bg-white group cursor-pointer rounded-xl border p-3 space-y-4 w-[300px] overflow-x-auto flex-shrink-0'>
+    <div className='bg-white group cursor-pointer rounded-xl border border-black/50 p-3 space-y-4 w-[250px] overflow-x-auto flex-shrink-0'>
       {/* Image & actions */}
       <div
         className=''

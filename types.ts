@@ -20,7 +20,8 @@ export interface Product{
   color: Color;
   images: Image[];
   stockAmount?: string
-  description?: string
+  description?: string;
+  brand: Brand
 }
 export interface Brand {
   id: string;
