@@ -1,3 +1,5 @@
+import { Review } from "@prisma/client";
+
 export interface Billboard {
   id: string;
   label: string;
@@ -22,6 +24,7 @@ export interface Product{
   stockAmount?: string
   description?: string;
   brand: Brand;
+  reviews: Review[]
 }
 export interface Brand {
   id: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import usePreviewModal from "@/hooks/use-prview-modal";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Modal from "./ui/modal";
 import Gallery from "./gallery";
 import Info from "./Info";
@@ -11,6 +11,18 @@ interface previewModalProps {}
 const PreviewModal: FC<previewModalProps> = ({}) => {
   const previewModal = usePreviewModal();
   const product = usePreviewModal((state) => state.data);
+  const [rating, setRating] = useState(0);
+
+  useEffect(() => {
+    if (product) {
+      const totalRating = product.reviews.reduce(
+        (sum: any, review: any) => sum + parseFloat(review.value),
+        0
+      );
+      const averageRating = Math.round(totalRating / product.reviews.length);
+      setRating(averageRating);
+    }
+  }, [product]);
 
   if (!product) {
     return null;
@@ -23,7 +35,7 @@ const PreviewModal: FC<previewModalProps> = ({}) => {
           <Gallery images={product.images} />
         </div>
         <div className='sm:col-span-8 lg:col-span-7'>
-          <Info data={product} />
+          <Info rating={rating} data={product} />
         </div>
       </div>
     </Modal>

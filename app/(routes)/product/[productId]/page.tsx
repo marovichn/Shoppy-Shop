@@ -1,14 +1,8 @@
 import getProduct from "@/actions/get-product";
 import getProducts from "@/actions/get-products";
-import Container from "@/components/ui/container";
-import ProductList from "@/components/ProductList";
-import Info from "@/components/Info";
-import Gallery from "@/components/gallery";
 import db from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import ReviewInput from "./components/ReviewInput";
-import ReviewsList from "./components/ReviewsList";
 import { getProductReviews } from "@/actions/get-product-reviews";
 import ProductDisplay from "./components/ProductDisplay";
 

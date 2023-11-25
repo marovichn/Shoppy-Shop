@@ -4,7 +4,6 @@ import NoResults from "@/components/ui/no-results";
 import ProductCard from "@/components/ui/product-card";
 import { Product } from "@/types";
 import { FC, useState } from "react";
-import { MdFavorite } from "react-icons/md";
 
 interface CategoryProductsProps {
   products: Product[];
