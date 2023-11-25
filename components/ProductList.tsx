@@ -26,11 +26,15 @@ const ProductList: React.FC<ProductListProps> = ({
   const initialStep = 4;
   const [index, setIndex] = useState(initialStep);
   const [loading, setLoading] = useState(true);
+  
+
   useEffect(() => {
     if (items) {
       setLoading(false);
     }
-  }, []);
+  }, [items]);
+
+ 
 
   return (
     <div className='space-y-4'>
@@ -58,7 +62,7 @@ const ProductList: React.FC<ProductListProps> = ({
       )}
       {loading && (
         <div className='flex w-full items-center justify-center pb-16'>
-          <div className="border-b-4 border-black rounded-full p-8 animate-spin w-14 h-14"></div>
+          <div className='border-b-4 border-black rounded-full p-8 animate-spin w-14 h-14'></div>
         </div>
       )}
       {items && items.length !== 0 && (

@@ -21,7 +21,7 @@ export interface Product{
   images: Image[];
   stockAmount?: string
   description?: string;
-  brand: Brand
+  brand: Brand;
 }
 export interface Brand {
   id: string;

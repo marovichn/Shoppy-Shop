@@ -7,6 +7,10 @@ import Gallery from "@/components/gallery";
 import db from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import ReviewInput from "./components/ReviewInput";
+import ReviewsList from "./components/ReviewsList";
+import { getProductReviews } from "@/actions/get-product-reviews";
+import ProductDisplay from "./components/ProductDisplay";
 
 export const revalidate = 0;
 
@@ -21,6 +25,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
   const suggestedProducts = await getProducts({
     categoryId: product?.category?.id,
   });
+  const productReviews = await getProductReviews(params.productId);
 
   if (!product) {
     return null;
@@ -30,20 +35,12 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
 
   if (!session?.user?.email) {
     return (
-      <div className='bg-white mt-12'>
-        <Container>
-          <div className='px-4 py-10 sm:px-6 lg:px-8'>
-            <div className='lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8'>
-              <Gallery images={product.images} />
-              <div className='mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0'>
-                <Info data={product} />
-              </div>
-            </div>
-            <hr className='my-10' />
-            <ProductList title='Related Items' items={suggestedProducts} />
-          </div>
-        </Container>
-      </div>
+      <ProductDisplay
+        product={product}
+        productId={product.id}
+        productReviews={productReviews}
+        suggestedProducts={suggestedProducts}
+      />
     );
   }
 
@@ -57,20 +54,13 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
 
   if (!currentUser) {
     return (
-      <div className='bg-white mt-12'>
-        <Container>
-          <div className='px-4 py-10 sm:px-6 lg:px-8'>
-            <div className='lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8'>
-              <Gallery images={product.images} />
-              <div className='mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0'>
-                <Info data={product} />
-              </div>
-            </div>
-            <hr className='my-10' />
-            <ProductList title='Related Items' items={suggestedProducts} />
-          </div>
-        </Container>
-      </div>
+      <ProductDisplay
+        product={product}
+        productId={product.id}
+        productReviews={productReviews}
+        sessionEmail={session.user.email}
+        suggestedProducts={suggestedProducts}
+      />
     );
   }
 
@@ -86,30 +76,16 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
   });
 
   return (
-    <div className='bg-white mt-12'>
-      <Container>
-        <div className='px-4 py-10 sm:px-6 lg:px-8'>
-          <div className='lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8'>
-            <Gallery images={product.images} />
-            <div className='mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0'>
-              <Info
-                sessionEmail={session?.user?.email}
-                favorites={favorites}
-                wishlist={wishlist}
-                data={product}
-              />
-            </div>
-          </div>
-          <hr className='my-10' />
-          <ProductList
-            wishlists={wishlist}
-            favorites={favorites}
-            title='Related Items'
-            items={suggestedProducts}
-          />
-        </div>
-      </Container>
-    </div>
+    <ProductDisplay
+      product={product}
+      productId={product.id}
+      productReviews={productReviews}
+      sessionEmail={session.user.email}
+      suggestedProducts={suggestedProducts}
+      currentUser={currentUser}
+      favorites={favorites}
+      wishlist={wishlist}
+    />
   );
 };
 

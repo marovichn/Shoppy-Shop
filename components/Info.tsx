@@ -21,12 +21,14 @@ import ProductActions from "@/app/(routes)/product/[productId]/components/Produc
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import BrandCard from "./BrandCard";
+import StarsSelect from "@/app/(routes)/product/[productId]/components/StarsSelect";
 
 interface InfoProps {
-  data: Product;
+  data: any;
   sessionEmail?: string;
   favorites?: any;
   wishlist?: any;
+  rating: number;
 }
 
 const Info: React.FC<InfoProps> = ({
@@ -34,6 +36,7 @@ const Info: React.FC<InfoProps> = ({
   sessionEmail,
   favorites,
   wishlist,
+  rating,
 }) => {
   const cart = useCart();
   const stockAmount = data?.stockAmount ? Number(data?.stockAmount) : 1;
@@ -102,6 +105,10 @@ const Info: React.FC<InfoProps> = ({
           </div>
           <BrandCard data={data?.brand} badge></BrandCard>
         </div>
+        <div className='flex flex-col items-start gap-y-4'>
+          <h3 className='font-semibold text-black'>Rating: ( {data.reviews.length} )</h3>
+          <StarsSelect onChange={() => {}} disabled initValue={rating} />
+        </div>
         <div className='flex items-center gap-x-4'>
           <h3 className='font-semibold text-black'>Size:</h3>
           <div>{data?.size?.value}</div>
@@ -126,7 +133,7 @@ const Info: React.FC<InfoProps> = ({
           )}
           {hidden && (
             <div className='transition'>
-              {data.description?.split(". ").map((sentance) => (
+              {data.description?.split(". ").map((sentance:any) => (
                 <p key={sentance} className='py-3'>
                   {sentance}.
                 </p>
