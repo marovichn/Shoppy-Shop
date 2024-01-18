@@ -44,6 +44,9 @@ export default async function Home() {
       <Container>
         <div className='space-y-10 pb-10 mt-16'>
           <Billboard textColor='#fff' data={billboard} />
+          <div className='flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8'>
+            <ProductList title='Featured Products' items={products} />
+          </div>
           <div className='flex flex-row gap-y-8 px-4 sm:px-6 lg:px-8'>
             <BrandsList title='Brands' items={brands} />
           </div>
@@ -68,9 +71,6 @@ export default async function Home() {
           </div>
           <div className='flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8'>
             <PromocodeAdComponent />
-          </div>
-          <div className='flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8'>
-            <ProductList title='Featured Products' items={products} />
           </div>
         </div>
       </Container>
